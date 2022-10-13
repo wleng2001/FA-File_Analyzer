@@ -35,8 +35,31 @@ You should get information similary to that:
 If you don't have download python you can do it <a href="https://www.python.org/downloads/">here</a>.
 
 ## Usage
-
-## PL
+You can run program by clicking *file_analyzer.py* icon in file explorator or writing the text in terminal in linux os:
+#### `sudo python3 [loc]/file_analyzer.py` loc is file location
+After run app you are asked about preffered language:
+####
+```
+Availible language:
+polski - PL
+English - EN
+Choose language (by code):
+```
+You can choose language by wrtiing code of it.
+Next you are asked about decimal separator:
+#### `Choose decimal separator (./,):` 
+Then it shows for you information about availible option. You can choose a option by typing character.
+####
+```
+help -> display the screen
+1 -> search graph peaks
+c -> create file
+o -> open file
+s -> settings
+exit or 0 -> exit
+->
+```
+## PL 🇵🇱	
 ## Opis
 Jest to prosty program napisany w pythonie do analizy plików *.txt. Na ten moment wyszukuje wartości maksymalnych dla wskazanego pliku i zapisuje je w pliku w formacie csv.
 ## Instalacja
