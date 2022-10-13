@@ -42,7 +42,7 @@ Jest to prosty program napisany w pythonie do analizy plików *.txt. Na ten mome
 ## Instalacja
 ### Na linuxie
 W celu zainstalowania oprogramowania musisz posiadać zainstalowany na urządzeniu interpreter języka python. Aby sprawdzić czy jest zainstalowany wpisz w terminalu:
-#### `python3 --veresion`
+#### `python3 --version`
 Powinieneś otrzymać wynik podobny do tego:
 #### `Python 3.9.7`
 W innym wypadku wpisz:
@@ -51,16 +51,16 @@ Aby pobrać oprogramowanie wpisz w terminalu:
 #### `git clone https://github.com/wleng2001/File_analyzer.git ./FA` (może być konieczne doinstalowanie git)
 lub pobierz plik zip i rozpakuj w eksploratorze plików.
 ### Na windowsie
-W celu zainstalowania oprogramowania musisz posiadać zainstalowany na urządzeniu interpreter języka python. Aby sprawdzić czy jest zainstalowany wpiszw cmd (otwiera się poprzez wpisane cmd  i potwierdzeniepo naciśnięciu klawisza **win**):
+W celu zainstalowania oprogramowania musisz posiadać zainstalowany na urządzeniu interpreter języka python. Aby sprawdzić czy jest zainstalowany wpisz w cmd (otwiera się poprzez wpisane cmd  i potwierdzenie po naciśnięciu klawisza **win**):
 #### `python --version`
 Powinieneś otrzymać informację podobną do tej:
 #### `Python 3.9.7`
-Jeśli nie oprogramowanie możesz pobrać spod tego <a href="https://www.python.org/downloads/">linku</a>.
-Program możesz pobrać poprzez kliknięcie **code** na tej stronie a następnie **Download ZIP**. Następnie rozpakuj go przy pomocy eksploratora.
+Jeśli nie, oprogramowanie możesz pobrać spod tego <a href="https://www.python.org/downloads/">linku</a>.
+Program możesz pobrać poprzez kliknięcie **code** na tej stronie a potem **Download ZIP**. Następnie rozpakuj go przy pomocy eksploratora.
 
 ## Użytkowanie
-Program uruchamia się poprzez kliknięcie w jego ikonę lub w systemie linux:
-#### `sudo python3 [lok]` gdzie lok to ścieżka do programu
+Program uruchamia się klikając w jego ikonę lub w systemie linux poprzez:
+#### `sudo python3 [lok]/File_analyzer.py` gdzie lok to ścieżka do programu
 Po uruchominu zostaniesz poproszony o wybranie wersji językowej:
 ####
 ```
@@ -75,7 +75,7 @@ Po czym program zapyta o separator dziesiętny:
 ```
 Wybierz separator dziesiętny (./,):
 ```
-Po wyborze separatora wyświetlą się dostępne funkcje porgramu i znak zachęty, aby wybrać funkcję:
+Po wyborze separatora wyświetlą się dostępne funkcje programu i znak zachęty, aby wybrać funkcję:
 ####
 ```
 help -> wyświetla to okno
@@ -85,4 +85,23 @@ o -> otwórz plik
 s -> ustawienia
 exit lub 0 -> wyjście
 ->
+```
+Wybierjąc opcję *1* program zapyta cię o plik, który chcesz analizować
+#### `Podaj nazwę pliku do otwarcia(z rozszerzeniem): ` Wpisując jego nazwę (z rozszerzeniem) pamiętaj, aby znajdował sięw tym samym folderze co program!
+W drugiej kolejności zostaniesz poproszony o ilość szukanych wartości maksymalnych:
+#### `Podaj ilość szukanych pików (0=nie podaje ile znalazł): `
+Jeśli wpiszesz 0 nie pokaże tego podsumowania z tym ile znalazł wartości maksymalnych:
+#### `Znaleziono 41 pików a szukano 40 pików`
+Następnie program poprosi o nazwę pliku z rozszerzeniem do jakiego ma być zapisany wynik pracy (proponuję rozszerzenie csv co pozwoli na otwarcie pliku w excelu/calc):
+#### `Podaj nazwę pliku do utworzenia(z rozszerzeniem):`
+Aby zapisać plik należy wyjść z programu poprzez wpisanie *0* lub *exit* po pokazaniu się znaku zachęty *->*. Wówczas program zamknie plik i pokaże twórców:
+####
+```
+->exit
+
+Plik x został zamknięty pomyślnie
+
+Życzymy miłego dnia
+Program wykonali:
+Kamil Grodzki
 ```
