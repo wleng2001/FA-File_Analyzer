@@ -125,6 +125,10 @@ def find_peaks(ask, number, o_file_name, o_file, o_file_c, w_file_name, w_file, 
                 o_file_name, o_file, o_file_c=open_file(0,0,o_file_name, o_file, o_file_c)
             o_file_c=o_file_c.split("\n")
             o_file_c=rm_text_line(o_file_c)
+            o_file_c_copy=o_file_c
+            o_file_c=[]
+            for i in o_file_c_copy:
+                o_file_c.append(change_output(i,"."))
             peaks_amount=None
             while peaks_amount==None:
                 peaks_amount=check_input(input(translation_dict["ask_peaks_amount"][language]))
