@@ -104,7 +104,8 @@ def change_sep_in_file(ask, number, file_name, file, contents):
                 else:
                     temp_line+=contents_c[i][j]
             contents_c[i]=temp_line+'\n'
-            copy_file(file_name, file, contents_c)
+        copy_file(file_name, file, contents_c)
+        return file_name, file, ""
         
     return file_name, file, contents
     
