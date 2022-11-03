@@ -17,8 +17,8 @@ translation_dict={
         {"PL":"",
          "EN":""},
     "help":
-        {"PL":"\nhelp -> wyświetla to okno\n1 -> wyznaczanie pików wykresu\nc -> utwórz plik\no -> otwórz plik\ns -> ustawienia\nexit lub 0 -> wyjście",
-         "EN":"\nhelp -> display the screen\n1 -> search graph peaks\nc -> create file\no -> open file\ns -> settings\nexit or 0 -> exit"},
+        {"PL":"\nhelp -> wyświetla to okno\n1 -> wyznaczanie pików wykresu\n2 -> zamień separatory dziesiętne na wybrany\nc -> utwórz plik\no -> otwórz plik\ns -> ustawienia\nexit lub 0 -> wyjście",
+         "EN":"\nhelp -> display the screen\n1 -> search graph peaks\n2 -> change decimal separator to choosen\nc -> create file\no -> open file\ns -> settings\nexit or 0 -> exit"},
     "language":
         {"PL":"Dostępne języki: \npolski - PL\nEnglish - EN",
          "EN":"Availible language: \npolski - PL\nEnglish - EN"},
@@ -52,6 +52,9 @@ translation_dict={
         {"PL":"Znaleziono %d pików a szukano %d pików",
          "EN":"Program finds %i peaks and it searched %i peaks"},
     }
+
+#---------------------variables
+
 close_file=True
 w_file_name=""
 w_file=None
@@ -79,9 +82,35 @@ def change_output(text, sep):
         else:
             text=text.replace(",",".")
         return text
+        
+#change sep in file
+
+def change_sep_in_file(ask, number, file_name, file, contents):
+    if ask==number:
+        if sep==",":
+            sep_to_change="."
+        else:
+            sep_to_change=","
+        file_name, file, contents=open_file(0,0, file_name, file, contents)
+        contents_c=contents.split('\n')
+        for i in range(0,len(contents_c)):
+            temp_line=""
+            for j in range(0,len(contents_c[i])):
+                if j>0 and j<len(contents_c[i]):
+                    if contents_c[i][j]==sep_to_change and ord(contents_c[i][j-1])>=48 and ord(contents_c[i][j-1])<=57 and ord(contents_c[i][j+1])>=48 and ord(contents_c[i][j+1])<=57:
+                        temp_line+=sep
+                    else:
+                        temp_line+=contents_c[i][j]
+                else:
+                    temp_line+=contents_c[i][j]
+            contents_c[i]=temp_line+'\n'
+            copy_file(file_name, file, contents_c)
+        
+    return file_name, file, contents
     
 
 #math function of program
+
 def rm_text_line(table):
     new_table=[]
     for i in range(len(table)):
@@ -193,13 +222,14 @@ def create_file(ask, number, file_name, file):
 def open_file(ask, number, file_name, file, contents):
     if ask==number:
         info=translation_dict["open_file"][language]
-        file_name=input(info)
-        try:
-            file=open(file_name, 'r')
-            contents=file.read()
-            return file_name, file, contents
-        except:
-            return file_name, file, contents
+        if contents=="":
+            file_name=input(info)
+            try:
+                file=open(file_name, 'r')
+                contents=file.read()
+                return file_name, file, contents
+            except:
+                return file_name, file, contents
     return file_name, file, contents
 
 def gen_csv(*data):
@@ -214,8 +244,12 @@ def gen_csv(*data):
         cell_sep=";"
     for i in range(len(data[0])):
         w_file.write(change_output(data[0][i],sep)+cell_sep+'\n')
-    
-    
+
+def copy_file(file_name, file, contents): #contents must by table
+    file=open(file_name, 'w')
+    for i in contents:
+        file.write(i)
+    file.close()
 
 #settings
 def set_language(ask,number):
@@ -273,6 +307,7 @@ print_tr(language,"help")
 while True:
     ask=input(prompt)
     w_file_name, w_file, close_file=find_peaks(ask,"1", o_file_name, o_file, o_file_c,  w_file_name, w_file, close_file)
+    o_file_name, o_file, o_file_c=change_sep_in_file(ask, "2", o_file_name, o_file, o_file_c)
     w_file_name, w_file=create_file(ask, "c", w_file_name, w_file)
     o_file_name, o_file, o_file_c=open_file(ask,"o", o_file_name, o_file, o_file_c)
     language, sep=settings(ask,"s", language, sep)
