@@ -3,55 +3,14 @@
 #---------------------library import
 from time import sleep
 from math import *
-
+from translation import *
+import config
+from analyze_text import *
 #---------------------variables
 
 prompt="->"
 language="EN"
 availible_lng=["PL","EN"]
-translation_dict={
-    "exit":{
-        "PL":"\nŻyczymy miłego dnia\nProgram wykonali:\nKamil Grodzki",
-        "EN":"\nWish you a nice day\nProgram is written by:\nKamil Grodzki"},
-    "start":
-        {"PL":"",
-         "EN":""},
-    "help":
-        {"PL":"\nhelp -> wyświetla to okno\n1 -> wyznaczanie pików wykresu\n2 -> zamień separatory dziesiętne na wybrany\nc -> utwórz plik\no -> otwórz plik\ns -> ustawienia\nexit lub 0 -> wyjście",
-         "EN":"\nhelp -> display the screen\n1 -> search graph peaks\n2 -> change decimal separator to choosen\nc -> create file\no -> open file\ns -> settings\nexit or 0 -> exit"},
-    "language":
-        {"PL":"Dostępne języki: \npolski - PL\nEnglish - EN",
-         "EN":"Availible language: \npolski - PL\nEnglish - EN"},
-    "sep_ask":
-        {"PL":"Wybierz separator dziesiętny (./,): ",
-         "EN":"Choose decimal separator (./,): "},
-    "create_file":
-        {"PL":"Podaj nazwę pliku do utworzenia(z rozszerzeniem): ",
-        "EN":"Give file name to create(with file extension):"},
-    "open_file":
-        {"PL":"Podaj nazwę pliku do otwarcia(z rozszerzeniem): ",
-        "EN":"Give file name to open(with file extension):"},
-    "close_file":
-        {"PL":"Plik %s został zamknięty pomyślnie",
-        "EN":"File %s is closed correctly"},
-    "settings":
-        {"PL":"Ustawienia: \nl -> ustaw język\nd -> ustaw separator dziesiętny",
-         "EN":"Settings: \nl-> set language\d -> set decimal separator"},
-    "error":{"PL":"BŁĄD","EN":"ERROR"},
-    "inc_format":
-        {"PL":"Nieprawidłowy format (zbyt długi/krótki tekst lub niedozwolone znaki)",
-         "EN":"Wrong text format (too short/long text or not allowe sign)"},
-    "out_range":
-        {"PL":"Wartość poza zakresem",
-         "EN":"Value out of the range"},
-    #peaks finder----
-    "ask_peaks_amount":
-        {"PL":"Podaj ilość szukanych pików (0=nie podaje ile znalazł): ",
-         "EN":"Give how many peaks search (0=don't check it): "},
-    "peaks_amount":
-        {"PL":"Znaleziono %d pików a szukano %d pików",
-         "EN":"Program finds %i peaks and it searched %i peaks"},
-    }
 
 #---------------------variables
 
@@ -62,7 +21,10 @@ o_file_name=""
 o_file=None
 o_file_c=""
 sep=""
+GUI=False
+
 #---------------------function
+
 #input
 
 def check_input(text):
@@ -108,104 +70,6 @@ def change_sep_in_file(ask, number, file_name, file, contents):
         return file_name, file, ""
         
     return file_name, file, contents
-    
-
-#math function of program
-
-def rm_text_line(table):
-    new_table=[]
-    for i in range(len(table)):
-        if table[i]!="" and ord(table[i][0])>=48 and ord(table[i][0])<=57:
-            new_table.append(table[i])
-    return new_table
-
-def search_peaks(table):
-    what_counter=10
-    peaks=[0]
-    peaks[0]=float(table[0])
-    peak_n=len(peaks)
-    pre_previou_n=0
-    previous_n=float(table[0])
-    counter=10 #counter from number set as max
-    for i in table:
-        i=float(i)
-        if previous_n>i and previous_n>pre_previous_n:
-            if previous_n<peaks[peak_n-1] and counter>0:
-                pass
-            elif previous_n>peaks[peak_n-1] and counter>0:
-                    peaks[peak_n-1]=previous_n
-                    counter=what_counter
-            else:
-                peaks[peak_n-1]=previous_n
-                peak_n=len(peaks)
-                peaks.append(0)
-                counter=what_counter
-
-        if counter>0:
-            counter=counter-1
-        pre_previous_n=previous_n
-        previous_n=i
-    return peaks[:-2], peak_n-2
-        
-
-def find_peaks(ask, number, o_file_name, o_file, o_file_c, w_file_name, w_file, close_file):
-    while True:
-        if ask==number:
-            while o_file==None:
-                o_file_name, o_file, o_file_c=open_file(0,0,o_file_name, o_file, o_file_c)
-            o_file_c=o_file_c.split("\n")
-            o_file_c=rm_text_line(o_file_c)
-            o_file_c_copy=o_file_c
-            o_file_c=[]
-            for i in o_file_c_copy:
-                o_file_c.append(change_output(i,"."))
-            peaks_amount=None
-            while peaks_amount==None:
-                peaks_amount=check_input(input(translation_dict["ask_peaks_amount"][language]))
-                if peaks_amount==None:
-                    print_tr(language, "error")
-                    print_tr(language, "inc_format")
-            peaks, peaks_n=search_peaks(o_file_c)
-            if peaks_amount!=0:
-                print(translation_dict["peaks_amount"][language] %(peaks_n, peaks_amount))
-            while w_file==None:
-                w_file_name,w_file=create_file(0,0,w_file_name,w_file)
-            gen_csv(sep, w_file, peaks)
-            close_file=False
-            return w_file_name, w_file, close_file
-            
-        else:
-            return w_file_name, w_file, close_file
-
-#translation
-def print_tr(lng, text_name):
-    print(translation_dict[text_name][lng])
-
-def comma_dot(data,change_sign):
-    if data!='':
-        if change_sign==',':
-            data=data.replace('.',',')
-        if change_sign=='.':
-            data=data.replace(',','.')
-            data=float(data)
-    return data
-
-def set_sep(ask, number, sep, lng):
-    if ask==number:
-        while True:
-            info=translation_dict["sep_ask"][lng]
-            ask=input(info)
-            if ask!=None and len(ask)==1:
-                if ask=="." or ask==",":
-                    return ask
-                else:
-                    print_tr(language,"error")
-                    print_tr(language,"inc_format")
-            else:
-                print_tr(language,"error")
-                print_tr(language,"inc_format")
-    return sep
-            
 
 #file
 def create_file(ask, number, file_name, file):
@@ -252,8 +116,91 @@ def copy_file(file_name, file, contents): #contents must by table
         file.write(i)
     file.close()
 
+#math functions
+def search_peaks(table):
+    what_counter=10
+    peaks=[0]
+    peaks[0]=float(table[0])
+    peak_n=len(peaks)
+    pre_previou_n=0
+    previous_n=float(table[0])
+    counter=10 #counter from number set as max
+    for i in table:
+        i=float(i)
+        if previous_n>i and previous_n>pre_previous_n:
+            if previous_n<peaks[peak_n-1] and counter>0:
+                pass
+            elif previous_n>peaks[peak_n-1] and counter>0:
+                    peaks[peak_n-1]=previous_n
+                    counter=what_counter
+            else:
+                peaks[peak_n-1]=previous_n
+                peak_n=len(peaks)
+                peaks.append(0)
+                counter=what_counter
+
+        if counter>0:
+            counter=counter-1
+        pre_previous_n=previous_n
+        previous_n=i
+    return peaks[:-2], peak_n-2
+        
+
+def find_peaks(ask, number, o_file_name, o_file, o_file_c, w_file_name, w_file, close_file):
+    while True:
+        if ask==number:
+            while o_file==None:
+                o_file_name, o_file, o_file_c=open_file(0,0,o_file_name, o_file, o_file_c)
+                if o_file==None:
+                    return w_file_name, w_file, close_file
+
+            o_file_c=o_file_c.split("\n")
+            o_file_c=rm_text_line(o_file_c)
+            o_file_c_copy=o_file_c
+            o_file_c=[]
+            for i in o_file_c_copy:
+                o_file_c.append(change_output(i,"."))
+            peaks_amount=None
+            while peaks_amount==None:
+                peaks_amount=check_input(input(translation_dict["ask_peaks_amount"][language]))
+                if peaks_amount==None:
+                    print_tr(language, "error")
+                    print_tr(language, "inc_format")
+            peaks, peaks_n=search_peaks(o_file_c)
+            if peaks_amount!=0:
+                print(translation_dict["peaks_amount"][language] %(peaks_n, peaks_amount))
+            while w_file==None:
+                w_file_name,w_file=create_file(0,0,w_file_name,w_file)
+            gen_csv(sep, w_file, peaks)
+            close_file=False
+            return w_file_name, w_file, close_file
+            
+        else:
+            return w_file_name, w_file, close_file
+
+#add line if difference behind line is bigger than your number
+
+def add_line(ask, number, o_file_name, o_file, o_file_c, w_file_name, w_file, close_file):
+    doc=""
+    headers=""
+    while True:
+        if ask==number:
+            while o_file==None:
+                o_file_name, o_file, o_file_c=open_file(0,0,o_file_name, o_file, o_file_c)
+                if o_file==None:
+                    return w_file_name, w_file, close_file
+            o_file_c=o_file_c.split("\n")
+            for i in o_file_c:
+                doc+=rm_space(i)
+            headers=find_header(doc,)
+            print_tr(language, "header_look")
+            print(headers)
+            doc=rm_text_line(doc)
+        else:
+            return w_file_name, w_file, close_file
+
 #settings
-def set_language(ask,number):
+def set_language(ask,number, lng):
     while True:
         if ask==number:
             print_tr(language, "language")
@@ -267,7 +214,9 @@ def set_language(ask,number):
                         return text
                 print_tr(language,"error")
                 print_tr(language,"out_range")
-        else: break
+        else:
+            return lng
+            break
 
 def settings(ask, number, lng, sep):
     prompt="s->"
@@ -275,7 +224,7 @@ def settings(ask, number, lng, sep):
         if ask==number:
             print_tr(lng, "settings")
             ask=input(prompt)
-            lng=set_language(ask, "l")
+            lng=set_language(ask, "l", lng)
             sep=set_sep(ask, "d", sep, lng)
             return lng, sep
         else:
@@ -302,9 +251,21 @@ def close_app(number,ask, file, file_name):
         exit()
 
 #---------------------program
-language=set_language(0,0)
-sep=set_sep(0,0,sep, language)
+if config.configured==False:
+    language=set_language(0,0)
+    sep=set_sep(0,0,sep, language)
+    print_tr(language,"help")
+    config.change("configured",True)
+    config.change("language",language)
+    config.change("sep",sep)
+    config.change("GUI",GUI)
+else:
+    language=config.language
+    sep=config.sep
+    GUI=config.GUI
+
 print_tr(language,"help")
+
 while True:
     ask=input(prompt)
     w_file_name, w_file, close_file=find_peaks(ask,"1", o_file_name, o_file, o_file_c,  w_file_name, w_file, close_file)
@@ -312,6 +273,8 @@ while True:
     w_file_name, w_file=create_file(ask, "c", w_file_name, w_file)
     o_file_name, o_file, o_file_c=open_file(ask,"o", o_file_name, o_file, o_file_c)
     language, sep=settings(ask,"s", language, sep)
+    config.change("language",language)
+    config.change("sep",sep)
     close_app("0",ask, w_file, w_file_name)
     if ask=="help":
         print_tr(language,"help")         
