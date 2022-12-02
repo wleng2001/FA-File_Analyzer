@@ -45,11 +45,11 @@ translation_dict={
         {"PL":"Jaki separator oddziela dane w wierszu:",
         "EN":"What separator divide data in line:"},
     "header_look":
-    {"PL":"Tak wyglądają nagłówki: "
-     "EN":"Headers look: "},
+        {"PL":"Tak wyglądają nagłówki: ",
+         "EN":"Headers look: "},
     "data_jump":
-    {"PL":"Jaki ma być skok wartości między wierszami: "
-    "EN":"Jump of value behing lines: "},
+        {"PL":"Jaki ma być skok wartości między wierszami: ",
+        "EN":"Jump of value behing lines: "},
     }
 
 #translation

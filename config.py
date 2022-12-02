@@ -1,6 +1,6 @@
-configured=True
-language="PL"
-sep=","
+configured=False
+language=""
+sep=""
 GUI=False
 
 #end config section
@@ -22,6 +22,18 @@ def change(var_n, new_value):
     for i in file_t:
         file.write(i+'\n')
     file.close()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
