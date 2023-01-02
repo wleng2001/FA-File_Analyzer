@@ -183,6 +183,7 @@ def find_peaks(ask, number, o_file_name, o_file, o_file_c, w_file_name, w_file, 
 def add_line(ask, number, o_file_name, o_file, o_file_c, w_file_name, w_file, close_file):
     doc=""
     headers=""
+    data_sep=""
     while True:
         if ask==number:
             while o_file==None:
@@ -195,6 +196,11 @@ def add_line(ask, number, o_file_name, o_file, o_file_c, w_file_name, w_file, cl
             headers=find_header(doc,)
             print_tr(language, "header_look")
             print(headers)
+            headers=headers.split(data_sep)
+            while o_file==None:
+                if o_file==None:
+                    return w_file_name, w_file, close_file
+            o_file_c=o_file_c.split("\n")
             doc=rm_text_line(doc)
         else:
             return w_file_name, w_file, close_file
@@ -252,9 +258,8 @@ def close_app(number,ask, file, file_name):
 
 #---------------------program
 if config.configured==False:
-    language=set_language(0,0)
+    language=set_language(0,0, language)
     sep=set_sep(0,0,sep, language)
-    print_tr(language,"help")
     config.change("configured",True)
     config.change("language",language)
     config.change("sep",sep)
