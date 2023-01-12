@@ -15,8 +15,8 @@ translation_dict={
         {"PL":"Wybierz separator dziesiętny (./,): ",
          "EN":"Choose decimal separator (./,): "},
     "gui":
-        {"PL":"Czy chcesz uruchomić graficzny interfejs użytkownika? (1->tak/0->nie)",
-         "EN":"Do you want enable GUI? (1->yes/0->no)"},
+        {"PL":"Czy chcesz uruchomić graficzny interfejs użytkownika? (1->tak/0->nie): ",
+         "EN":"Do you want enable GUI? (1->yes/0->no): "},
     "create_file":
         {"PL":"Podaj nazwę pliku do utworzenia(z rozszerzeniem): ",
         "EN":"Give file name to create(with file extension): "},
