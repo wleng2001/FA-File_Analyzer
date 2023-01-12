@@ -89,7 +89,8 @@ def open_file(ask, number, file_name, file, contents):
         info=translation_dict["open_file"][language]
         if contents=="":
             if GUI==True:
-                file_name=filedialog.askopenfilename(initialdir=getcwd())#input(info)
+                file_name=filedialog.askopenfilename(initialdir=getcwd())
+                print(info+file_name)
             else:
                 file_name=input(info)
             try:
