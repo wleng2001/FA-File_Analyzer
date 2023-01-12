@@ -98,19 +98,26 @@ Po czym program zapyta o separator dziesiętny:
 ```
 Wybierz separator dziesiętny (./,):
 ```
-Po wyborze separatora wyświetlą się dostępne funkcje programu i znak zachęty, aby wybrać funkcję:
+Na koniec program zapyta o to czy chcesz, aby w programie działały dostępne usługi Graficznego Interfejsu Użytkownika (GUI).
+####
+```
+Czy chcesz uruchomić graficzny interfejs użytkownika? (1->tak/0->nie): 
+```
+Po wyborze tego czy chcesz używać GUI czy też nie wyświetlą się dostępne funkcje programu i znak zachęty, aby wybrać funkcję:
 ####
 ```
 help -> wyświetla to okno
 1 -> wyznaczanie pików wykresu
+2 -> zamień separatory dziesiętne na wybrany
 c -> utwórz plik
 o -> otwórz plik
 s -> ustawienia
 exit lub 0 -> wyjście
 ->
 ```
-Wybierjąc opcję *1* program zapyta cię o plik, który chcesz analizować
+Wybierjąc opcję *1* program zapyta cię o plik (jeśli nie włączyłeś opcji GUI), który chcesz analizować:
 #### `Podaj nazwę pliku do otwarcia(z rozszerzeniem): ` Wpisując jego nazwę (z rozszerzeniem) pamiętaj, aby znajdował sięw tym samym folderze co program!
+Jeśli je włączyłeś uruchomi się okno menadżera plików, gdzie będziesz mógł wybrać plik do analizy
 W drugiej kolejności zostaniesz poproszony o ilość szukanych wartości maksymalnych:
 #### `Podaj ilość szukanych pików (0=nie podaje ile znalazł): `
 Jeśli wpiszesz 0 nie pokaże tego podsumowania z tym ile znalazł wartości maksymalnych:
