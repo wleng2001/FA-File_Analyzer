@@ -6,14 +6,13 @@ from math import *
 from translation import *
 import config
 from analyze_text import *
+from tkinter import filedialog
+from os import getcwd
 #---------------------variables
 
 prompt="->"
 language="EN"
 availible_lng=["PL","EN"]
-
-#---------------------variables
-
 close_file=True
 w_file_name=""
 w_file=None
@@ -84,11 +83,15 @@ def create_file(ask, number, file_name, file):
         return file_name, file
     return file_name, file
 
+
 def open_file(ask, number, file_name, file, contents):
     if ask==number:
         info=translation_dict["open_file"][language]
         if contents=="":
-            file_name=input(info)
+            if GUI==True:
+                file_name=filedialog.askopenfilename(initialdir=getcwd())#input(info)
+            else:
+                file_name=input(info)
             try:
                 file=open(file_name, 'r')
                 contents=file.read()
@@ -206,6 +209,17 @@ def add_line(ask, number, o_file_name, o_file, o_file_c, w_file_name, w_file, cl
             return w_file_name, w_file, close_file
 
 #settings
+def set_gui(ask, number, gui):
+    if ask==number:
+        text=input(translation_dict["gui"][language])
+        if(text=='1'):
+            text=True
+        elif text=='0':
+            text=False
+        else:
+            text=gui
+        return text
+
 def set_language(ask,number, lng):
     while True:
         if ask==number:
@@ -260,6 +274,7 @@ def close_app(number,ask, file, file_name):
 if config.configured==False:
     language=set_language(0,0, language)
     sep=set_sep(0,0,sep, language)
+    GUI=set_gui(0,0,GUI)
     config.change("configured",True)
     config.change("language",language)
     config.change("sep",sep)
